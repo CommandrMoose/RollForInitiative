@@ -1,4 +1,4 @@
-package river.rollforinitiative.registry;
+package river.rollforinitiative.registry.neoforge;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
@@ -7,6 +7,9 @@ import net.minecraft.resources.ResourceKey;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import river.rollforinitiative.registry.DeferredRegistry;
+import river.rollforinitiative.registry.RegistrySupplier;
+import river.rollforinitiative.registry.RegistrySupplierHolder;
 
 
 import java.util.LinkedHashMap;
