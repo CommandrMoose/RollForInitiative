@@ -23,7 +23,7 @@
       "river.rollforinitiative.fabric.RollForInitiativeFabric"
     ],
     "cardinal-components": [
-
+      "river.rollforinitiative.common.capability.fabric.RFIComponents"
     ],
     "client": [
       "river.rollforinitiative.fabric.RollForInitiativeClient"
@@ -39,5 +39,8 @@
     "fabric-api": "${fabric_api_version_range}"
   },
   "custom": {
+    "cardinal-components": [
+      "${mod_id}:rfi_data"
+    ]
   }
 }

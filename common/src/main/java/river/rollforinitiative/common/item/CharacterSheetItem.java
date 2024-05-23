@@ -20,6 +20,8 @@ import river.rollforinitiative.common.stat.CharacterStats;
 import river.rollforinitiative.network.messages.OpenCharacterSheetMessage;
 import river.rollforinitiative.network.messages.OpenEncounterManagerMessage;
 
+import java.util.UUID;
+
 public class CharacterSheetItem extends Item {
     public CharacterSheetItem(Properties properties) {
         super(properties);
@@ -33,7 +35,7 @@ public class CharacterSheetItem extends Item {
             if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
                 ItemStack stack = player.getItemInHand(interactionHand);
                 String name = stack.getDisplayName().getString().replace("[", "").replace("]", "");
-                new OpenCharacterSheetMessage(new CharacterStats(name, 60, 45, 12, 5)).send(serverPlayer); // TODO: Have these character stats saved on the server, and have the character sheet reference an ID instead.
+                new OpenCharacterSheetMessage(new CharacterStats(UUID.randomUUID().toString(), name, 60, 45, 12, 5)).send(serverPlayer); // TODO: Have these character stats saved on the server, and have the character sheet reference an ID instead.
             }
         }
 
@@ -53,7 +55,7 @@ public class CharacterSheetItem extends Item {
             useOnContext.getLevel().playSound(useOnContext.getPlayer(), clickedPos, SoundEvents.STONE_BUTTON_CLICK_ON, SoundSource.BLOCKS, 1f, 1f);
 
             String name = stack.getDisplayName().getString().replace("[", "").replace("]", "");
-            CharacterStats characterStats = new CharacterStats(name, 60, 45, 12, 5);
+            CharacterStats characterStats = new CharacterStats(UUID.randomUUID().toString(),name, 60, 45, 12, 5);
             blockEntity.addCharacterSheet(useOnContext.getPlayer(), characterStats);
         }
 

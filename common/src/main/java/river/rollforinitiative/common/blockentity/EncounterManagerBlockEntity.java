@@ -10,6 +10,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import river.rollforinitiative.common.capability.RFIWorldComponent;
+import river.rollforinitiative.common.data.StatRepository;
 import river.rollforinitiative.common.item.CharacterSheetItem;
 import river.rollforinitiative.common.item.GameMasterScreenItem;
 import river.rollforinitiative.common.stat.CharacterStats;
@@ -33,15 +35,23 @@ public class EncounterManagerBlockEntity extends BlockEntity {
 
         if (getLevel() instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
 
-            if (itemStack.getItem() == Items.BLAZE_ROD) {
-                System.out.println("The " + charactersInInitiative.size() + " characters in the initiative are: ");
-                for (CharacterStats characterStat : charactersInInitiative) {
-                    System.out.println(characterStat.getName());
-                }
+            if (itemStack.is(Items.STICK)) {
+
+                RFIWorldComponent.get(serverLevel).ifPresent(x -> x.getEncounterManager().advanceInitiative());
+                return;
             }
 
+            if (itemStack.is(Items.BLAZE_ROD)) {
+
+                StatRepository.getPartyCharacterStats().forEach((x) -> addCharacterSheet(serverPlayer, x ));
+
+
+                return;
+            }
+
+
             if (!((itemStack.getItem() instanceof CharacterSheetItem || itemStack.getItem() instanceof GameMasterScreenItem)) || remote) {
-                new OpenEncounterManagerMessage().send(serverPlayer);
+                new OpenEncounterManagerMessage(this.worldPosition).send(serverPlayer);
             } else {
 
                 if (itemStack.getItem() instanceof CharacterSheetItem) {
@@ -53,7 +63,11 @@ public class EncounterManagerBlockEntity extends BlockEntity {
 
     public void addCharacterSheet(Player player, CharacterStats characterStat) {
         charactersInInitiative.add(characterStat);
-        PlayerUtil.sendMessage(player, Component.translatable("Added: ").append(characterStat.getName()), true);
+        PlayerUtil.sendMessage(player, Component.translatable("Added: ").append(characterStat.getName()), false);
         System.out.println("Added: " + characterStat.getName());
+    }
+
+    public List<CharacterStats> getCharactersInInitiative() {
+        return this.charactersInInitiative;
     }
 }

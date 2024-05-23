@@ -2,10 +2,11 @@ package river.rollforinitiative;
 
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
-import river.rollforinitiative.network.RFINetwork;
+import river.rollforinitiative.common.stat.CharacterStats;
 import river.rollforinitiative.registry.RFIBlockEntities;
 import river.rollforinitiative.registry.RFIBlocks;
 import river.rollforinitiative.registry.RFIItems;
+import river.rollforinitiative.util.FileWriterUtil;
 
 public class RollForInitiative
 {
@@ -21,9 +22,12 @@ public class RollForInitiative
 		RFIItems.TABS.register();
 		RFIItems.ITEMS.register();
 		RFIBlocks.BLOCKS.register();
-		RFINetwork.init();
 		RFIBlockEntities.BLOCK_ENTITY_TYPES.register();
 
+		CharacterStats hex = new CharacterStats("test_hex", "Hex", 30, 30, 16, 6);
+		FileWriterUtil.writeCharacter(hex);
+
+		FileWriterUtil.readPartyCharacters();
 
 		LOGGER.info("Roll For Initiative ready to go!");
 	}

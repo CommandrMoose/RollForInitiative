@@ -2,6 +2,7 @@ package river.rollforinitiative.network.messages;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 import river.rollforinitiative.client.ScreenHandler;
@@ -12,13 +13,14 @@ import river.rollforinitiative.network.RFINetwork;
 
 public class OpenEncounterManagerMessage extends MessageS2C {
 
+    private BlockPos encounterBlockPosition;
 
-    public OpenEncounterManagerMessage() {
-
+    public OpenEncounterManagerMessage(BlockPos encounterBlockPosition) {
+        this.encounterBlockPosition = encounterBlockPosition;
     }
 
     public OpenEncounterManagerMessage(FriendlyByteBuf friendlyByteBuf) {
-
+        this.encounterBlockPosition = friendlyByteBuf.readBlockPos();
     }
 
     @NotNull
@@ -29,7 +31,7 @@ public class OpenEncounterManagerMessage extends MessageS2C {
 
     @Override
     public void toBytes(FriendlyByteBuf buf) {
-
+        buf.writeBlockPos(this.encounterBlockPosition);
     }
 
     @Override
@@ -40,6 +42,6 @@ public class OpenEncounterManagerMessage extends MessageS2C {
     @Environment(EnvType.CLIENT)
     private void handleScreens() {
         // Open the monitor.
-        ScreenHandler.openEncounterManagerScreen();
+        ScreenHandler.openEncounterManagerScreen(encounterBlockPosition);
     }
 }

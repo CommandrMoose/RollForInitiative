@@ -5,13 +5,15 @@ import net.minecraft.nbt.CompoundTag;
 
 public class CharacterStats {
 
+    private String Id;
     private String Name;
     private int HP;
     private int MAX_HP;
     private int AC;
     private int INIT;
 
-    public CharacterStats(String name, int maxHp, int hp, int ac, int init) {
+    public CharacterStats(String id, String name, int maxHp, int hp, int ac, int init) {
+        this.Id = id;
         this.Name = name;
         this.MAX_HP = maxHp;
         this.HP = hp;
@@ -41,12 +43,13 @@ public class CharacterStats {
     }
 
     public static CharacterStats deserialize(CompoundTag tag) {
+        String id = tag.getString("id");
         String name = tag.getString("character_name");
         int hp = tag.getInt("hp");
         int maxHp = tag.getInt("maxHp");
         int ac = tag.getInt("ac");
         int init = tag.getInt("init");
-        return new CharacterStats(name, maxHp, hp, ac, init);
+        return new CharacterStats(id, name, maxHp, hp, ac, init);
     }
 
     public int getHP() {
@@ -79,5 +82,13 @@ public class CharacterStats {
 
     public void setMAX_HP(int MAX_HP) {
         this.MAX_HP = MAX_HP;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 }
